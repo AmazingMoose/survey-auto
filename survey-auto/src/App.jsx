@@ -3,6 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import './App.css'
+import UpdateSurveyPanel from './components/UpdateSurveyPanel';
+
 
 function TabContentWrapper(props) {
   const { children, value, index, ...other } = props;
@@ -37,28 +39,34 @@ function App() {
 
   return (
     <>
-      <Box sx={{ width: '100%' }}>
+      <Box className="menu-tabs" sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs 
             value={value} 
             onChange={handleChange} 
             aria-label="basic tabs example"
           >
-            <Tab sx={{color: 'white'}} label="Замена анкеты" {...allyProps(0)}/>
-            <Tab sx={{color: 'white'}} label="Создание новой анкеты" {...allyProps(1)}/>
-            <Tab sx={{color: 'white'}} label="Просмотрщик шаблонов" {...allyProps(2)}/>
-            <Tab sx={{color: 'white'}} label="Добавление ключей" {...allyProps(3)}/>
-            <Tab sx={{color: 'white'}} label="Проверка номеров" {...allyProps(4)}/>
+            <Tab label="Замена анкеты" {...allyProps(0)}/>
+            <Tab label="Создание новой анкеты" {...allyProps(1)}/>
+            <Tab label="Просмотрщик шаблонов" {...allyProps(2)}/>
+            <Tab label="Добавление ключей" {...allyProps(3)}/>
+            <Tab label="Проверка номеров" {...allyProps(4)}/>
           </Tabs>
         </Box> 
         <TabContentWrapper value={value} index={0}>
-          Item One
+          <UpdateSurveyPanel/>
         </TabContentWrapper>
         <TabContentWrapper value={value} index={1}>
           Item Two
         </TabContentWrapper>
         <TabContentWrapper value={value} index={2}>
           Item Three
+        </TabContentWrapper>
+        <TabContentWrapper value={value} index={3}>
+          Item Four
+        </TabContentWrapper>
+        <TabContentWrapper value={value} index={4}>
+          Item Five
         </TabContentWrapper>
       </Box>
     </>
