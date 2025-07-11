@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import './App.css'
 import UpdateSurveyPanel from './components/UpdateSurveyPanel';
+import TemplateViewer from './components/TemplateViewer';
 
 
 function TabContentWrapper(props) {
@@ -60,7 +61,7 @@ function App() {
           Item Two
         </TabContentWrapper>
         <TabContentWrapper value={value} index={2}>
-          Item Three
+          <TemplateViewer/>
         </TabContentWrapper>
         <TabContentWrapper value={value} index={3}>
           Item Four
