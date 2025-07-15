@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import CustomSelect from './CustomSelect'
 import CodeMirror from '@uiw/react-codemirror'
+import Button from '@mui/material/Button'
 
 const TemplateViewer = () => {
     const [template, setTemplate] = useState('')
@@ -17,7 +18,7 @@ const TemplateViewer = () => {
         {id: 40, name: "Template4"},
     ]
 
-    const onChange = useCallback((val, viewUpdate) => {
+    const onChange = useCallback((val) => {
         console.log('val:', val);
         setTemplateText(val);
     }, []);
@@ -30,7 +31,14 @@ const TemplateViewer = () => {
                 value={template}
                 onChange={handleChange}
             />
-            <CodeMirror 
+            <div>
+                <Button>Сохранить шаблон</Button>
+                <Button>Сохранить шаблон</Button>
+            </div>
+            <CodeMirror style={{
+                textAlign: 'left', 
+                fontSize: "16px"
+            }}
                 value={templateText} 
                 height="200px" 
                 onChange={onChange} 

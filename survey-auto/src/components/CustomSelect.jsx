@@ -7,12 +7,13 @@ const CustomSelect = ({headerName, value, onChange: handleChange, options}) => {
     return (
         <>
             <InputLabel color='primary'>{headerName}</InputLabel>
-            <FormControl style={{ width: 500}}>
+            <FormControl style={{ width: 500 }}>
                 <Select 
                     variant='outlined'
                     labelId="demo-simple-select-label" 
                     onChange={handleChange} 
                     value={value}
+                    sx={{backgroundColor: "white"}}
                 >
                     {
                         options.map(option => (
