@@ -6,7 +6,8 @@ import './App.css'
 import UpdateSurveyPanel from './components/UpdateSurveyPanel';
 import TemplateViewer from './components/TemplateViewer';
 import CreateSurveyPanel from './components/CreateSurveyPanel';
-
+import UploadTemplatePanel from './components/UploadTemplatePanel';
+import AddKeysPanel from './components/AddKeysPanel';
 
 function TabContentWrapper(props) {
   const { children, value, index, ...other } = props;
@@ -53,6 +54,7 @@ function App() {
             <Tab label="Просмотрщик шаблонов" {...allyProps(2)}/>
             <Tab label="Добавление ключей" {...allyProps(3)}/>
             <Tab label="Проверка номеров" {...allyProps(4)}/>
+            <Tab label="Загрузка шаблонов" {...allyProps(5)}/>
           </Tabs>
         </Box> 
         <TabContentWrapper value={value} index={0}>
@@ -65,10 +67,13 @@ function App() {
           <TemplateViewer/>
         </TabContentWrapper>
         <TabContentWrapper value={value} index={3}>
-          Item Four
+          <AddKeysPanel/>
         </TabContentWrapper>
         <TabContentWrapper value={value} index={4}>
           Item Five
+        </TabContentWrapper>
+        <TabContentWrapper value={value} index={5}>
+          <UploadTemplatePanel/>
         </TabContentWrapper>
       </Box>
     </>

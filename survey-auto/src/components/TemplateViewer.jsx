@@ -32,7 +32,7 @@ const TemplateViewer = () => {
                 onChange={handleChange}
             />
             <div>
-                <Button>Сохранить шаблон</Button>
+                <Button>Создать новый шаблон</Button>
                 <Button>Сохранить шаблон</Button>
             </div>
             <CodeMirror style={{
