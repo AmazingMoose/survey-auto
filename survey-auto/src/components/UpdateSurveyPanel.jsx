@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack'
 import Autocomplete from '@mui/material/Autocomplete'
 import Checkbox from '@mui/material/Checkbox'
@@ -8,21 +8,21 @@ import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import Button from '@mui/material/Button'
 import CustomSelect from './CustomSelect'
+import surveyService from '../services/survey'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
 const UpdateSurveyPanel = () => {
 
-    const options = [
-        {id: 10, name: "Template1"},
-        {id: 20, name: "Template2"},
-        {id: 30, name: "Template3"},
-        {id: 40, name: "Template4"},
-    ]
-
+    const [options, setOptions] = useState([])
     const [template, setTemplate] = useState('')
 
+    useEffect(() => {surveyService.getAll().then(data => {
+        console.log(data)
+        setOptions(data.map(data=> data.name))}
+    )}, [])
+    
     const handleChange = (event) => {
         setTemplate(event.target.value)
     }
@@ -34,7 +34,7 @@ const UpdateSurveyPanel = () => {
             <Autocomplete
                 id='update-survey-tags'
                 multiple
-                options={survey_ids}
+                options={options}
                 disableCloseOnSelect
                 getOptionLabel={(option => option)}
                 renderOption={(props, option, { selected }) => {
@@ -53,7 +53,6 @@ const UpdateSurveyPanel = () => {
                 }}
                 style={{ width: 500}}
                 renderInput={(params => {
-                    console.log(params)
                     return(
                         <TextField style={{backgroundColor: 'white'}} {...params} label="Анкеты" placeholder="Выбранные анкеты"/>
                     )}
@@ -70,10 +69,5 @@ const UpdateSurveyPanel = () => {
     )
 }
 
-const survey_ids = [
-    '610',
-    '785',
-    '805'
-]
 
 export default UpdateSurveyPanel
