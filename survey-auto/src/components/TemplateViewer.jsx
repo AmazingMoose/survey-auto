@@ -1,25 +1,32 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import CustomSelect from './CustomSelect'
 import CodeMirror from '@uiw/react-codemirror'
 import Button from '@mui/material/Button'
+import templateService from '../services/template'
 
 const TemplateViewer = () => {
     const [template, setTemplate] = useState('')
+    const [templateOptions, setTemplateOptions] = useState([])
     const [templateText, setTemplateText] = useState("console.log('hello world');")
 
     const handleChange = (event) => {
-        setTemplate(event.target.value)
+        console.log(event.target)
+        templateService.getById(event.target.value)
+            .then(data => {
+                setTemplateText(data.text)
+                setTemplate(event.target.value)
+            })
+            .catch(err => console.log(err.error))
+
     }
     
-    const options = [
-        {id: 10, name: "Template1"},
-        {id: 20, name: "Template2"},
-        {id: 30, name: "Template3"},
-        {id: 40, name: "Template4"},
-    ]
+    useEffect(() => {
+        templateService.getAll().then(data => {
+            setTemplateOptions(data)
+        })
+    }, [])
 
     const onChange = useCallback((val) => {
-        console.log('val:', val);
         setTemplateText(val);
     }, []);
 
@@ -27,7 +34,7 @@ const TemplateViewer = () => {
         <>
             <CustomSelect 
                 headerName="Выберите шаблон:"
-                options={options}
+                options={templateOptions}
                 value={template}
                 onChange={handleChange}
             />

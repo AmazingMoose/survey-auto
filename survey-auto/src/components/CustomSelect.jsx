@@ -3,15 +3,15 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
-const CustomSelect = ({headerName, value, onChange: handleChange, options}) => {
+const CustomSelect = ({headerName, value, onChange, options}) => {
+
     return (
         <>
             <InputLabel color='primary'>{headerName}</InputLabel>
             <FormControl style={{ width: 500 }}>
                 <Select 
                     variant='outlined'
-                    labelId="demo-simple-select-label" 
-                    onChange={handleChange} 
+                    onChange={onChange} 
                     value={value}
                     sx={{backgroundColor: "white"}}
                 >

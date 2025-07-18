@@ -9,20 +9,29 @@ import InputLabel from '@mui/material/InputLabel'
 import Button from '@mui/material/Button'
 import CustomSelect from './CustomSelect'
 import surveyService from '../services/survey'
+import templateService from '../services/template'
+import Chip from '@mui/material/Chip'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon fontSize="small" />
 
 const UpdateSurveyPanel = () => {
 
+    const [templateOptions, setTemplateOptions] = useState([])
     const [options, setOptions] = useState([])
-    const [template, setTemplate] = useState('')
-
-    useEffect(() => {surveyService.getAll().then(data => {
-        console.log(data)
-        setOptions(data.map(data=> data.name))}
-    )}, [])
+    const [template, setTemplate] = useState("")
+    useEffect(() => {
+        surveyService.getAll().then(data => {
+            setOptions(data)
+        })
+        
+        templateService.getAll().then(data => {
+            setTemplateOptions(data)
+        })
+    }, [])
     
+    
+
     const handleChange = (event) => {
         setTemplate(event.target.value)
     }
@@ -36,7 +45,7 @@ const UpdateSurveyPanel = () => {
                 multiple
                 options={options}
                 disableCloseOnSelect
-                getOptionLabel={(option => option)}
+                getOptionLabel={(option => toString(option.survey_id))}
                 renderOption={(props, option, { selected }) => {
                     const {key, ...optionProps} = props
                     return (
@@ -47,20 +56,37 @@ const UpdateSurveyPanel = () => {
                                 style={{marginRight: 8}}
                                 checked={selected}
                             />
-                            {option}
+                            {option.survey_id}
                         </li>
                     )
                 }}
                 style={{ width: 500}}
+                renderValue={(values, getItemProps) =>
+                    values.map((option, index) => {
+                    const { key, ...itemProps } = getItemProps({ index });
+                    return (
+                        <Chip
+                        key={key}
+                        label={option.survey_id}
+                        {...itemProps}
+                        />
+                    );
+                    })
+                }
                 renderInput={(params => {
                     return(
-                        <TextField style={{backgroundColor: 'white'}} {...params} label="Анкеты" placeholder="Выбранные анкеты"/>
+                        <TextField 
+                            style={{backgroundColor: 'white'}} 
+                            {...params} 
+                            label="Анкеты" 
+                            placeholder="Выбранные анкеты"
+                        />
                     )}
                 )}
             />
             <CustomSelect 
                 headerName="Выберите шаблон:"
-                options={options}
+                options={templateOptions}
                 value={template}
                 onChange={handleChange}
             />

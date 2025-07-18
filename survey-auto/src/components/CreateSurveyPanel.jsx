@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CustomSelect from "./CustomSelect";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -6,19 +6,27 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
+import templateService from '../services/template'
 
 const CreateSurveyPanel = () => {
     
     const [template, setTemplate] = useState('')
     const [surveyNames, setSurveyNames] = useState('')
     const [badNames, setBadNames] = useState([])
+    const [templateOptions, setTemplateOptions] = useState([])
+
+    useEffect(() => {
+        templateService.getAll().then(data => {
+            setTemplateOptions(data)
+        })
+    }, [])
 
     const isBadOption = (option) => {
         return badNames.includes(option)
     }
 
     const handleTemplateChange = (event) => {
-        setTemplate(event)
+        setTemplate(event.target.value)
     }
 
     const validateNameString = (name) => {
@@ -30,11 +38,6 @@ const CreateSurveyPanel = () => {
     }
     
     const handleSurveyNameChange = (event, value, reason, details) => {
-        console.log(`event target val: ${event.target.value}`)
-        console.log(`value: ${value}`)
-        console.log(`reason: ${reason}`)
-        // console.log(`detail: ${details}`)
-        console.log(`surveyNames: ${surveyNames}`)
         if (reason === 'clear' || reason === 'removeOption') {
             setSurveyNames('')
             if (reason === 'removeOption') {
@@ -58,13 +61,6 @@ const CreateSurveyPanel = () => {
     const handleInputChange = (event) => {
         console.log(event.target.value);
     }
-
-    const options = [
-        { id: 10, name: "Template1" },
-        { id: 20, name: "Template2" },
-        { id: 30, name: "Template3" },
-        { id: 40, name: "Template4" },
-    ]
 
     const hasErrors = badNames.length > 0
 
@@ -112,7 +108,7 @@ const CreateSurveyPanel = () => {
                 headerName={'Выберите шаблон'}
                 onChange={handleTemplateChange}
                 value={template}
-                options={options}
+                options={templateOptions}
             />
             <Button variant='contained' disabled={hasErrors}>Создать</Button>
         </Stack>
