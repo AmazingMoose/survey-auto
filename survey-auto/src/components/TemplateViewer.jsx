@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import CustomSelect from './CustomSelect'
 import CodeMirror from '@uiw/react-codemirror'
 import Button from '@mui/material/Button'
+import Box from "@mui/material/Box";
 import templateService from '../services/template'
 
 const TemplateViewer = () => {
@@ -47,7 +48,8 @@ const TemplateViewer = () => {
                 fontSize: "16px"
             }}
                 value={templateText} 
-                height="200px" 
+                minHeight="300px"
+                maxHeight='650px'
                 onChange={onChange} 
             />
         </>

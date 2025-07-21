@@ -7,6 +7,15 @@ const getAll = () => {
     return request.then(response => response.data)
 }
 
+const update = (payload) => {
+    console.log(payload)
+    const config = {
+        params: {
+            payload
+        }
+    }
+    const request = axios.post(baseUrl, config)
+    return request.then(res => res.data)
+}
 
-
-export default { getAll }
+export default { getAll, update }

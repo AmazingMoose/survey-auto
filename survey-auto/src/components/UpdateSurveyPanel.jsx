@@ -20,6 +20,7 @@ const UpdateSurveyPanel = () => {
     const [templateOptions, setTemplateOptions] = useState([])
     const [options, setOptions] = useState([])
     const [template, setTemplate] = useState("")
+    const [selectedSurveys, setSelectedSurveys] = useState([])
     useEffect(() => {
         surveyService.getAll().then(data => {
             setOptions(data)
@@ -35,7 +36,21 @@ const UpdateSurveyPanel = () => {
     const handleChange = (event) => {
         setTemplate(event.target.value)
     }
+
+    const handleSelectedSurveyChange = (event, selected) => {
+        console.log(selected)
+        setSelectedSurveys(selected)
+    }
+
+    const handleClick = () => {
+        const payload = {
+            selectedSurveys,
+            template
+        }
+        surveyService.update(payload)
+    }
     
+    const canUpdate = template !== '' && selectedSurveys.length > 0
 
     return (
         <Stack width='100%' spacing={1} sx={{alignItems: 'center'}}>
@@ -44,12 +59,15 @@ const UpdateSurveyPanel = () => {
                 id='update-survey-tags'
                 multiple
                 options={options}
+                // value={selectedSurveys}
+                onChange={handleSelectedSurveyChange}
                 disableCloseOnSelect
                 getOptionLabel={(option => toString(option.survey_id))}
                 renderOption={(props, option, { selected }) => {
+                    console.log(props)
                     const {key, ...optionProps} = props
                     return (
-                        <li key={key} {...optionProps}>
+                        <li key={option.id} {...optionProps}>
                             <Checkbox
                                 icon={icon}
                                 checkedIcon={checkedIcon}
@@ -63,14 +81,15 @@ const UpdateSurveyPanel = () => {
                 style={{ width: 500}}
                 renderValue={(values, getItemProps) =>
                     values.map((option, index) => {
-                    const { key, ...itemProps } = getItemProps({ index });
-                    return (
-                        <Chip
-                        key={key}
-                        label={option.survey_id}
-                        {...itemProps}
-                        />
-                    );
+                        const { key, ...itemProps } = getItemProps({ index });
+                        console.log(key)
+                        return (
+                            <Chip
+                            key={key}
+                            label={option.survey_id}
+                            {...itemProps}
+                            />
+                        );
                     })
                 }
                 renderInput={(params => {
@@ -90,7 +109,7 @@ const UpdateSurveyPanel = () => {
                 value={template}
                 onChange={handleChange}
             />
-            <Button variant='contained'>Применить</Button>
+            <Button variant='contained' disabled={!canUpdate} onClick={handleClick}>Применить</Button>
         </Stack>
     )
 }
